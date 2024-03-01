@@ -1,35 +1,29 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import { format } from "date-fns";
+import { DatePicker } from ".";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [currentDate, setCurrentDate] = useState(new Date());
+
+  const handleSetToday = () => setCurrentDate(new Date());
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+    <div className="mt-16 flex flex-col items-center gap-8">
+      <div className="flex flex-col items-center gap-4">
         <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
+          <strong>Selected Date: </strong>
+          {format(currentDate, "dd LLLL yyyy")}
         </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
 
-export default App
+        <button onClick={handleSetToday}>Today</button>
+      </div>
+
+      {/* <Calendar value={currentDate} onChange={setCurrentDate} /> */}
+      <div className="">
+        <DatePicker value={currentDate} onChange={setCurrentDate} />
+      </div>
+    </div>
+  );
+};
+
+export default App;
