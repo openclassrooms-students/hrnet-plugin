@@ -20,6 +20,7 @@ export default defineConfig({
         "date-fns",
         "clsx",
         "usehooks-ts",
+        "react/jsx-runtime",
       ],
       output: {
         globals: {
