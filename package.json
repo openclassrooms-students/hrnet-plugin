@@ -1,7 +1,7 @@
 {
   "name": "hrnet-plugin",
   "private": false,
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "module",
   "description": "A simple plugin hrnet date picker",
   "main": "dist/index.umd.js",
