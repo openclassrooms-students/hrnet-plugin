@@ -1,32 +1,35 @@
 {
   "name": "hrnet-plugin",
   "private": false,
-  "version": "1.0.2",
+  "version": "1.0.3",
   "type": "module",
   "description": "A simple plugin hrnet date picker",
-  "main": "dist/index.umd.js",
-  "module": "dist/index.es.js",
-  "types": "dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.umd.js",
-      "types": "./dist/index.d.ts"
-    },
-    "./styles": "./dist/style.css"
-  },
-  "files": [
-    "/dist"
-  ],
-  "publishConfig": {
-    "access": "public"
-  },
+  "main": "index.js",
+  "license": "ISC",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:openclassrooms-students/hrnet-plugin.git"
+  },
+  "keywords": [
+    "react",
+    "typescript",
+    "tailwindcss",
+    "vite",
+    "hrnet"
+  ],
+  "author": {
+    "name": "Mamady KONTE"
+  },
+  "bugs": {
+    "url": "https://github.com/openclassrooms-students/hrnet-plugin/issues"
+  },
+  "homepage": "https://github.com/openclassrooms-students/hrnet-plugin#readme",
   "dependencies": {
     "@types/node": "^20.11.24",
     "clsx": "^2.1.0",
