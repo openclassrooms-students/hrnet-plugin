@@ -1,7 +1,7 @@
 {
   "name": "hrnet-plugin",
   "private": false,
-  "version": "1.0.6",
+  "version": "1.0.7",
   "type": "module",
   "license": "MIT",
   "description": "A simple plugin hrnet date picker",
