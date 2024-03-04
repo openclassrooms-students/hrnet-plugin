@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from "react";
+import { ForwardRefRenderFunction, forwardRef, useRef, useState } from "react";
 import { useOnClickOutside } from "usehooks-ts";
 import { format } from "date-fns";
 import Calendar from "./Calendar";
@@ -15,7 +15,11 @@ interface DatePickerProps {
   ariaLabel?: string;
 }
 
-const DatePicker:FC<DatePickerProps> = ({
+// eslint-disable-next-line react-refresh/only-export-components
+const DatePicker: ForwardRefRenderFunction<
+  HTMLInputElement,
+  DatePickerProps
+> = ({
   selected,
   onSelect,
   dateFormat = "dd-MM-yyyy",
@@ -63,4 +67,5 @@ const DatePicker:FC<DatePickerProps> = ({
   );
 };
 
-export default DatePicker;
+// eslint-disable-next-line react-refresh/only-export-components
+export default forwardRef(DatePicker);

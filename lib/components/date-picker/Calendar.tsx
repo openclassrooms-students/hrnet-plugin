@@ -72,7 +72,7 @@ const Calendar: React.FC<Props> = ({
   };
 
   return (
-    <div className="w-[400px] border-t border-l">
+    <div className="w-[400px] border-t border-l bg-white z-10">
       <div className="grid grid-cols-7 items-center justify-center text-center">
         <Cell onClick={() => handleChangeDate("year", "sub")}>
           <Chevron double oritation />
