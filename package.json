@@ -1,7 +1,7 @@
 {
   "name": "hrnet-plugin",
   "private": false,
-  "version": "1.0.5",
+  "version": "1.0.6",
   "type": "module",
   "license": "MIT",
   "description": "A simple plugin hrnet date picker",
@@ -69,6 +69,10 @@
   },
   "peerDependencies": {
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react-dom": "^18.0.0",
+    "date-fns": "^2.0.0",
+    "usehooks-ts": "^2.15.1",
+    "clsx": "^2.1.0",
+    "tailwindcss": "^3.4.1"
   }
 }
