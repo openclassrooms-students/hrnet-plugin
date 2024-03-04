@@ -1,21 +1,17 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
-import path from "path";
+import { resolve } from "path";
 import dts from "vite-plugin-dts";
+import tailwindcss from "tailwindcss";
 
 // https://vitejs.dev/config/
 
 export default defineConfig({
-  plugins: [react(), dts(
-    {
-      insertTypesEntry: true,
-    }
-  )],
   build: {
     lib: {
-      entry: path.resolve(__dirname, "src/index.ts"),
+      entry: resolve(__dirname, "./lib/index.ts"),
       name: "UI hrnet plugin DatePicker",
-      fileName: 'index',
+      fileName: (format) => `index.${format}.js`,
     },
     rollupOptions: {
       external: [
@@ -41,5 +37,11 @@ export default defineConfig({
 
     sourcemap: true,
     emptyOutDir: true,
+  },
+  plugins: [react(), dts({ rollupTypes: true })],
+  css: {
+    postcss: {
+      plugins: [tailwindcss],
+    },
   },
 });
