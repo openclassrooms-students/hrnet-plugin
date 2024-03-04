@@ -1,28 +1,20 @@
-import { ForwardRefRenderFunction, forwardRef, useRef, useState } from "react";
+import React, { useRef, useState, ChangeEvent } from "react";
 import { useOnClickOutside } from "usehooks-ts";
-import { format } from "date-fns";
+import { format, parse } from "date-fns";
 import Calendar from "./Calendar";
 import clsx from "clsx";
 
-interface DatePickerProps {
-  selected?: Date | null;
-  onSelect: (date: Date) => void;
+type DatePickerProps = {
+  selected: Date | null;
+  onSelect: (date: Date | null) => void;
   dateFormat?: string;
   className?: string;
-  name?: string;
-  id?: string;
-  placeholder?: string;
-  ariaLabel?: string;
-}
+} & React.InputHTMLAttributes<HTMLInputElement>;
 
-// eslint-disable-next-line react-refresh/only-export-components
-const DatePicker: ForwardRefRenderFunction<
-  HTMLInputElement,
-  DatePickerProps
-> = ({
+const DatePicker: React.FC<DatePickerProps> = ({
   selected,
   onSelect,
-  dateFormat = "dd-MM-yyyy",
+  dateFormat = "dd/MM/yyyy",
   className,
   ...props
 }) => {
@@ -41,6 +33,14 @@ const DatePicker: ForwardRefRenderFunction<
     handleCloseCalendar();
   });
 
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const inputDate = event.target.value;
+    const parsedDate = inputDate
+      ? parse(inputDate, dateFormat, new Date())
+      : null;
+    onSelect(parsedDate);
+  };
+
   return (
     <div className="relative" ref={containerRef}>
       <input
@@ -48,6 +48,7 @@ const DatePicker: ForwardRefRenderFunction<
         value={selected ? format(selected, dateFormat) : dateFormat}
         readOnly
         onClick={handleInputClick}
+        onChange={handleInputChange}
         className={clsx(
           "w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#5a6e07] focus:border-transparent",
           className
@@ -58,7 +59,7 @@ const DatePicker: ForwardRefRenderFunction<
         <div>
           <Calendar
             selected={selected}
-            onSelect={onSelect}
+            onSelect={(date) => onSelect(date)}
             handleCloseCalendar={handleCloseCalendar}
           />
         </div>
@@ -67,5 +68,4 @@ const DatePicker: ForwardRefRenderFunction<
   );
 };
 
-// eslint-disable-next-line react-refresh/only-export-components
-export default forwardRef(DatePicker);
+export default DatePicker;

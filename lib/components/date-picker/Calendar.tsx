@@ -14,13 +14,13 @@ import { Chevron } from "./Icon";
 
 const weeks = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-type Props = {
+type CalendarProps = {
   selected?: Date | null;
   onSelect: (date: Date) => void;
   handleCloseCalendar: () => void;
 };
 
-const Calendar: React.FC<Props> = ({
+const Calendar: React.FC<CalendarProps> = ({
   selected,
   onSelect,
   handleCloseCalendar,
