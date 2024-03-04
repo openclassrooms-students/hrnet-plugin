@@ -15,54 +15,76 @@ import { Chevron } from "./Icon";
 const weeks = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 type Props = {
-  value?: Date | null;
-  onChange: (date: Date) => void;
-  handleClodeModal: (date: Date) => void;
+  selected?: Date | null;
+  onSelect: (date: Date) => void;
+  handleCloseCalendar: () => void;
 };
 
-const Calendar: React.FC<Props> = ({ value, onChange, handleClodeModal }) => {
-  if (!value) {
-    return null;
-  }
+const Calendar: React.FC<Props> = ({
+  selected,
+  onSelect,
+  handleCloseCalendar,
+}) => {
+  const currentDate = selected || new Date();
 
-  const startDate = startOfMonth(value);
-  const endDate = endOfMonth(value);
-  const numberOfDaysInMonth = getDaysInMonth(value);
+  const startDate = startOfMonth(currentDate);
+  const endDate = endOfMonth(currentDate);
+  const numberOfDaysInMonth = getDaysInMonth(currentDate);
 
   const prefixDays = startDate.getDay();
   const suffixDays = 6 - endDate.getDay();
 
-  const previousMonthDate = subMonths(value, 1);
+  const previousMonthDate = subMonths(currentDate, 1);
 
   const lastDayOfPreviousMonth = getDate(endOfMonth(previousMonthDate));
 
   const numberOfDayInPreviousMonth = lastDayOfPreviousMonth - prefixDays + 1;
 
-  const prevMonth = () => onChange(sub(value, { months: 1 }));
-  const nextMonth = () => onChange(add(value, { months: 1 }));
-  const prevYear = () => onChange(sub(value, { years: 1 }));
-  const nextYear = () => onChange(add(value, { years: 1 }));
+  const periodMap: { [key: string]: { months?: number; years?: number } } = {
+    month: { months: 1 },
+    year: { years: 1 },
+  };
+
+  const handleChangeDate = (period: string, direction: string) => {
+    const changeValue = direction === "add" ? add : sub;
+    onSelect(changeValue(currentDate, periodMap[period]));
+  };
 
   const handleClickDate = (index: number) => {
-    const date = setDate(value, index);
-    onChange(date);
-    handleClodeModal(date);
+    const date = setDate(startOfMonth(currentDate), index);
+    onSelect(date);
+    handleCloseCalendar();
+  };
+
+  const handleClickDatePreviousMonth = (index: number) => {
+    const date = setDate(
+      startOfMonth(previousMonthDate),
+      numberOfDayInPreviousMonth + index
+    );
+    onSelect(date);
+    handleCloseCalendar();
+  };
+
+  const handleClickDateNextMonth = (index: number) => {
+    const date = setDate(startOfMonth(currentDate), index + 1);
+    onSelect(date);
+    handleCloseCalendar();
   };
 
   return (
     <div className="w-[400px] border-t border-l">
       <div className="grid grid-cols-7 items-center justify-center text-center">
-        <Cell onClick={prevYear}>
+        <Cell onClick={() => handleChangeDate("year", "sub")}>
           <Chevron double oritation />
         </Cell>
-        <Cell onClick={prevMonth}>
+        <Cell onClick={() => handleChangeDate("month", "sub")}>
           <Chevron oritation />
         </Cell>
-        <Cell className="col-span-3">{format(value, "LLLL yyyy")}</Cell>
-        <Cell onClick={nextMonth}>
+        <Cell className="col-span-3">{format(currentDate, "LLLL yyyy")}</Cell>
+        <Cell onClick={() => handleChangeDate("month", "add")}>
           <Chevron />
         </Cell>
-        <Cell onClick={nextYear}>
+        <Cell onClick={() => handleChangeDate("year", "add")}>
           <Chevron double />
         </Cell>
 
@@ -78,10 +100,7 @@ const Calendar: React.FC<Props> = ({ value, onChange, handleClodeModal }) => {
           <Cell
             key={index}
             className="text-gray-300"
-            onClick={() => {
-              const date = lastDayOfPreviousMonth - prefixDays + index + 1;
-              onChange(setDate(previousMonthDate, date));
-            }}
+            onClick={() => handleClickDatePreviousMonth(index)}
           >
             {numberOfDayInPreviousMonth + index}
           </Cell>
@@ -89,7 +108,7 @@ const Calendar: React.FC<Props> = ({ value, onChange, handleClodeModal }) => {
 
         {Array.from({ length: numberOfDaysInMonth }).map((_, index) => {
           const date = index + 1;
-          const isCurrentDate = date === value.getDate();
+          const isCurrentDate = date === currentDate.getDate();
 
           return (
             <Cell
@@ -106,10 +125,7 @@ const Calendar: React.FC<Props> = ({ value, onChange, handleClodeModal }) => {
           <Cell
             key={index}
             className="text-gray-300"
-            onClick={() => {
-              const date = index + 1;
-              onChange(setDate(add(value, { months: 1 }), date));
-            }}
+            onClick={() => handleClickDateNextMonth(index)}
           >
             {index + 1}
           </Cell>

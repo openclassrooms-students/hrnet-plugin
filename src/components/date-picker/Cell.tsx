@@ -14,13 +14,20 @@ const Cell: React.FC<Props> = ({
 }) => {
   return (
     <div
-      onClick={!isActive ? onClick : undefined}
+      onClick={
+        onClick
+          ? (e) => {
+              e.stopPropagation();
+              onClick();
+            }
+          : undefined
+      }
       className={clsx(
         "h-10 border-b border-r flex items-center justify-center select-none transition-colors",
         {
           "cursor-pointer hover:bg-gray-100 active:bg-gray-200":
             !isActive && onClick,
-          "font-bold text-white bg-primary": isActive,
+          "font-bold text-white bg-[#5a6e07]": isActive,
         },
         className
       )}
