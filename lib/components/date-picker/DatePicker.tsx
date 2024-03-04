@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { FC, useRef, useState } from "react";
 import { useOnClickOutside } from "usehooks-ts";
 import { format } from "date-fns";
 import Calendar from "./Calendar";
@@ -15,7 +15,7 @@ interface DatePickerProps {
   ariaLabel?: string;
 }
 
-const DatePicker: React.FC<DatePickerProps> = ({
+const DatePicker:FC<DatePickerProps> = ({
   selected,
   onSelect,
   dateFormat = "dd-MM-yyyy",
