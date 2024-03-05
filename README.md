@@ -1,30 +1,141 @@
-# React + TypeScript + Vite
+# hrnet-plugin
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React Tailwind component to render a simple component DatePicker, Calendar, Modal
 
-Currently, two official plugins are available:
+## Install
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+npm i hrnet-plugin
+```
 
-## Expanding the ESLint configuration
+## Configure Tailwind
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Configure Tailwind to scan the library components by adding this line to the content array on the `tailwind.config.js`.
 
-- Configure the top-level `parserOptions` property like this:
+```
+content: [
+    ...
+    './node_modules/hrnet-plugin/dist/index.umd.js',
+  ],
+```
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
+## Modal component
+
+### Properties
+
+| Prop    | Type     | Description                                                                                       |
+| ------- | -------- | ------------------------------------------------------------------------------------------------- |
+| isOpen  | Boolean  | Show if the dialog component is open or closed                                                    |
+| onClose | Function | Callback to close the dialog component                                                            |
+| children | React.children  | React.children  |
+
+Example usage within a Modal component:
+
+```jsx
+import { useState } from 'react';
+import {Modal} from 'hrnet-plugin';
+
+function App() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleClose = () => setIsOpen(false);
+  const handleOpen = () => setIsOpen(true);
+
+  return (
+    <div>
+      <button onClick={handleOpen}>Open Dialog</button>
+      <Modal
+        isOpen={isOpen}
+        onClose={handleClose}
+        >
+          <p> lorem keeloifn  frnunft </p>
+      <Modal/>
+    </div>
+  );
 }
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Calendar component
+
+### Properties
+
+| Prop    | Type     | Description                                                                                       |
+| ------- | -------- | ------------------------------------------------------------------------------------------------- |
+| selected  | Date  | The selected date                                                    |
+| onSelect | Function | Callback to change the selected date                                                            |
+| handleCloseCalendar | Function | Callback to close the calendar component                                                            |
+
+Example usage within a Calendar component:
+
+```jsx
+import { useState } from 'react';
+import {Calendar} from 'hrnet-plugin';
+
+function App() {
+  const [selected, setSelected] = useState(new Date());
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleClose = () => setIsOpen(false);
+  const handleOpen = () => setIsOpen(true);
+
+  return (
+    <div>
+      <button onClick={handleOpen}>Open Calendar</button>
+      <Calendar
+        selected={selected}
+        onSelect={setSelected}
+        handleCloseCalendar={handleClose}
+        />
+    </div>
+  );
+}
+```
+
+
+## DatePicker component
+
+### Properties
+
+| Prop    | Type     | Description                                                                                       |
+| ------- | -------- | ------------------------------------------------------------------------------------------------- |
+| selected  | Date  | The selected date                                                    |
+| onSelect | Function | Callback to change the selected date                                                            |
+dateFormat | String | The date format to display the date. Default is 'dd/MM/yyyy' |
+
+
+Example usage within a DatePicker component:
+
+```jsx
+import { useState } from 'react';
+import {DatePicker} from 'hrnet-plugin';
+
+function App() {
+  const [selected, setSelected] = useState(new Date());
+
+  return (
+    <div>
+      <DatePicker
+        selected={selected}
+        onSelect={setSelected}
+        />
+    </div>
+  );
+}
+```
+
+## Dependencies
+
+```json
+"peerDependencies": {
+    "clsx": "^2.1.0",
+    "date-fns": "^2.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "tailwindcss": "^3.4.1",
+    "usehooks-ts": "^2.15.1"
+  }
+```
+
+## License
+
+This component is distributed under MIT license.
